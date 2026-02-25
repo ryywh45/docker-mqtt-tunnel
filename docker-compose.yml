@@ -1,0 +1,35 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:${MOSQUITTO_VERSION:-latest}
+    container_name: mosquitto
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-UTC}
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    # Expose ports for local development/debugging.
+    # Comment these out in production if you only want access via Cloudflare Tunnel.
+    ports:
+      - "${MQTT_PORT:-1883}:1883"     # MQTT Default Port
+      - "${MQTT_WS_PORT:-8083}:8083"  # MQTT WebSockets Port
+    networks:
+      - example_network
+
+  cloudflared:
+    image: cloudflare/cloudflared:${CLOUDFLARED_VERSION:-latest}
+    container_name: cloudflared
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
+      - TZ=${TZ:-UTC}
+    command: tunnel --no-autoupdate run
+    networks:
+      - example_network
+    depends_on:
+      - mosquitto
+
+networks:
+  example_network:
+    driver: bridge
