@@ -29,7 +29,8 @@ cp .env.example .env
 
 3. Launch the stack:
 ```Bash
-docker-compose up -d
+docker compose up -d
+# or legacy "docker-compose up -d"
 ```
 
 4. Create a User:
