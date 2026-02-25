@@ -18,7 +18,7 @@
 1. Clone:
 ```Bash
 git clone https://github.com/ryywh45/docker-mqtt-tunnel.git
-cd secure-mqtt-gateway
+cd docker-mqtt-tunnel
 ```
 
 2. Setup environment:
