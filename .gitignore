@@ -1,4 +1,5 @@
 .env
+mosquitto/config/pwfile
 mosquitto/data/*
 mosquitto/log/*
 !mosquitto/data/.gitkeep
